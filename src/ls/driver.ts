@@ -27,14 +27,18 @@ export default class TrinoDriver
       return this.connection;
     }
 
-    const connOptions: ConnectionOptions = {
+    const baseOptions: ConnectionOptions = {
       server: this.credentials.server,
       catalog: this.credentials.catalog,
       schema: this.credentials.schema,
       source: "sqltools-driver",
-      auth: new BasicAuth(this.credentials.user, this.credentials.password),
       ssl: this.credentials.trinoOptions?.ssl, 
     };
+
+    // Only add BasicAuth if externalAuthentication is not enabled
+    const connOptions: ConnectionOptions = this.credentials.externalAuthentication
+      ? baseOptions
+      : { ...baseOptions, auth: new BasicAuth(this.credentials.user, this.credentials.password) };
 
     try {
       const conn = Trino.create(connOptions);

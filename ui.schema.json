@@ -3,6 +3,7 @@
     "server",
     "catalog",
     "schema",
+    "externalAuthentication",
     "user",
     "password",
     "trinoOptions"
@@ -12,6 +13,9 @@
   },
   "server": {
     "ui:help": "Trino server location i.e. http://localhost:8080"
+  },
+  "externalAuthentication": {
+    "ui:help": "Enable external OAuth2 authentication. When enabled, username and password are not required."
   },
   "trinoOptions": {
     "ssl": {

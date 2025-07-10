@@ -23,6 +23,12 @@
       "type": "string",
       "minLength": 1
     },
+    "externalAuthentication": {
+      "title": "External Authentication",
+      "type": "boolean",
+      "default": false,
+      "description": "Enable external OAuth2 authentication. When enabled, username and password are not required."
+    },
     "trinoOptions": {
       "type": "object",
       "title": "Trino Options",
@@ -41,5 +47,21 @@
       }
     }
   },
-  "required": ["server", "catalog", "user"]
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "externalAuthentication": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": ["server", "catalog"]
+      },
+      "else": {
+        "required": ["server", "catalog", "user"]
+      }
+    }
+  ]
 }
